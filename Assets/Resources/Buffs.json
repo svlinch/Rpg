@@ -1,0 +1,104 @@
+{
+	"Buffs": 
+	{
+		"doubleDamage":
+		{
+			"Id": "doubleDamage",
+			"OnStartChanges": 
+			[
+				{
+					"TargetParameter": "damageMultiply",
+					"ChangeAmount": 1
+				}
+			],
+			"OnEndChanges": 
+			[
+				{
+					"TargetParameter": "damageMultiply",
+					"ChangeAmount": -1
+				}
+			],
+			"Duration": 1
+		},
+		"armorSelf":
+		{
+			"Id": "armorSelf",
+			"OnStartChanges": 
+			[
+				{
+					"TargetParameter": "armor",
+					"ChangeAmount": 50
+				}
+			],
+			"OnEndChanges": 
+			[
+				{
+					"TargetParameter": "armor",
+					"ChangeAmount": -50
+				}
+			],
+			"Duration": 2
+		},
+		"armorDestruction":
+		{
+			"Id": "armorDestruction",
+			"OnStartChanges": 
+			[
+				{
+					"TargetParameter": "armorDamage",
+					"ChangeAmount": 10
+				}
+			],
+			"OnEndChanges": 
+			[
+				{
+					"TargetParameter": "armorDamage",
+					"ChangeAmount": -10
+				}
+			],
+			"Duration": 1
+		},
+		"vampireSelf":
+		{
+			"Id": "vampireSelf",
+			"OnStartChanges": 
+			[
+				{
+					"TargetParameter": "armor",
+					"ChangeAmount": -25
+				},
+				{
+					"TargetParameter": "vampire",
+					"ChangeAmount": 50
+				}
+			],
+			"OnEndChanges": 
+			[
+				{
+					"TargetParameter": "vampire",
+					"ChangeAmount": -50
+				}
+			],
+			"Duration": 4
+		},
+		"vampireDecrease":
+		{
+			"Id": "vampireDecrease",
+			"OnStartChanges": 
+			[
+				{
+					"TargetParameter": "vampireDamage",
+					"ChangeAmount": 25
+				}
+			],
+			"OnEndChanges": 
+			[
+				{
+					"TargetParameter": "vampireDamage",
+					"ChangeAmount": -25
+				}
+			],
+			"Duration": 1
+		}
+	}
+}

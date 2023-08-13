@@ -1,0 +1,16 @@
+{
+    "name": "ADFactrories",
+    "rootNamespace": "",
+    "references": [
+        "GUID:92341a4ada20cf44b89d4eb129f18b44"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,19 @@
+{
+    "name": "ADModels",
+    "rootNamespace": "",
+    "references": [
+        "GUID:100eec69c325c2947817e0b5ac806f11",
+        "GUID:c36dfaa0d2ecd024d8d848df2384f5b9",
+        "GUID:c75117f416672214aa76b1bbaec1af2c",
+        "GUID:846fd0d3320e1974ca4b6fc86e3ad78f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

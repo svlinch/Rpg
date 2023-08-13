@@ -1,0 +1,22 @@
+{
+	"Units":
+	{
+		"Simple":
+		{
+			"Id": "Simple",
+			"FParameters": 
+			{
+				"attackPoints": 1,
+				"health": 100,
+				"armor": 0,
+				"vampire": 0,
+				"damage": 15,
+				"armorDamage": 0,
+				"vampireDamage": 0,
+				"damageMultiply": 1
+			},
+			"Skills": ["attack", "randomBuff"],
+			"ActionPoints": 1
+		}
+	}
+}

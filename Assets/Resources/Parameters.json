@@ -1,0 +1,53 @@
+{
+	"_fParameters": 
+	{
+		"attackPoints":
+		{
+			"_minValue": 0,
+			"_maxValue": 1,
+			"_property": {}
+		},
+		"health":
+		{
+			"_minValue": 0,
+			"_maxValue": 100,
+			"_property": {}
+		},
+		"armor":
+		{
+			"_minValue": 0,
+			"_maxValue": 100,
+			"_property": {}
+		},
+		"vampire":
+		{
+			"_minValue": 0,
+			"_maxValue": 100,
+			"_property": {}
+		},
+		"damage":
+		{
+			"_minValue": 0,
+			"_maxValue": 1000,
+			"_property": {}
+		},
+		"armorDamage":
+		{
+			"_minValue": 0,
+			"_maxValue": 1000,
+			"_property": {}
+		},
+		"vampireDamage":
+		{
+			"_minValue": 0,
+			"_maxValue": 1000,
+			"_property": {}
+		},
+		"damageMultiply":
+		{
+			"_minValue": 0,
+			"_maxValue": 1000,
+			"_property": {}
+		}
+	}
+}

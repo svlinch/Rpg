@@ -1,0 +1,49 @@
+{
+	"Skills":
+	{
+		"attack":
+		{
+			"Id": "attack",
+			"Changes": 
+			[
+				{
+					"Formula": "0-AarmorDamage",
+					"TargetParameter": "armor",
+					"TargetSelf": false
+				},
+				{
+					"Formula": "0-AvampireDamage",
+					"TargetParameter": "vampire",
+					"TargetSelf": false
+				},
+				{
+					"Formula": "0-Adamage*AdamageMultiply*(1-Tarmor/100)",
+					"TargetParameter": "health",
+					"TargetSelf": false
+				},
+				{
+					"Formula": "(Avampire/100)*(0-RThealth)",
+					"TargetParameter": "health",
+					"TargetSelf": true
+				}
+			], 
+			"SpecialChanges": [],
+			"UsesPerTurn": 1,
+			"Cost": 1
+		},
+		"randomBuff":
+		{
+			"Id": "randomBuff",
+			"Changes": [], 
+			"SpecialChanges": 
+			[ 
+				{ 
+					"Id": "randomBuff",
+					"TargetSelf": true
+				}
+			],
+			"UsesPerTurn": 1,
+			"Cost": 0
+		}
+	}
+}

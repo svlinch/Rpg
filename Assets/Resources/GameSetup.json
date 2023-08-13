@@ -1,0 +1,14 @@
+{
+	"LeftSide":
+	{
+		"UnitId": "Simple",
+		"PositionX": -3,
+		"PositionY": -2
+	},
+	"RightSide":
+	{
+		"UnitId": "Simple",
+		"PositionX": 3,
+		"PositionY": -2
+	}
+}

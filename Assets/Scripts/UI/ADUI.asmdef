@@ -1,0 +1,21 @@
+{
+    "name": "ADUI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:e16692cd1bb5870429e85afb13bf4031",
+        "GUID:c75117f416672214aa76b1bbaec1af2c",
+        "GUID:846fd0d3320e1974ca4b6fc86e3ad78f",
+        "GUID:73f22a38bd1b1484ba9e076d8f38ee5e",
+        "GUID:100eec69c325c2947817e0b5ac806f11"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,17 @@
+{
+	"Settings":
+	{
+		"health":
+		{
+			"Color": [1, 0, 0]
+		},
+		"armor":
+		{
+			"Color": [0, 1, 0]
+		},
+		"vampire":
+		{
+			"Color": [0, 0, 1]
+		}
+	}
+}
