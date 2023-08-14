@@ -1,14 +1,8 @@
 public class ChangeGameState
 {
-    public EState State;
-    public ChangeGameState(EState state)
+    public bool IsLeftTurn;
+    public ChangeGameState(bool isLeftTurn)
     {
-        State = state;
+        IsLeftTurn = isLeftTurn;
     }
-}
-
-public enum EState
-{
-    Left,
-    Right
 }

@@ -29,8 +29,10 @@ public class GamePlayController: IStarter
     private DamageVisualApply _damageApply;
     private MonoBehaviour _mb;
 
-    private EState _currentState;
-    private CustomProperty<uint> _rounds;
+    private TurnLogic[] _turns;
+    private TurnLogic _currentTurn;
+
+    public CustomProperty<uint> Rounds;
 
     public IEnumerator Initialize(MonoBehaviour mb)
     {
@@ -47,21 +49,37 @@ public class GamePlayController: IStarter
         _rightSideUnit = new UnitModel(_eventService, _balanceService, _balanceService.GetUnit(setup.RightSide.UnitId), newUnit, false);
         _eventService.SendMessage(new UnitModelCreated(_rightSideUnit, false));
 
-        _rounds = new CustomProperty<uint>();
-        _eventService.SendMessage(new GamePlayInitialized(_rounds));
+        Rounds = new CustomProperty<uint>();
+        _eventService.SendMessage(new GamePlayInitialized(Rounds));
         yield return null;
 
+        SetupTurns();
         ResetGame();
     }
 
-    private void ResetGame()
+    public void ResetGame()
     {
         _leftSideUnit.FullReset();
         _rightSideUnit.FullReset();
 
-        _currentState = EState.Left;
-        _rounds.Value = 0;
-        _eventService.SendMessage(new ChangeGameState(_currentState));
+        _currentTurn = _turns[0];
+        Rounds.Value = 0;
+
+        _eventService.SendMessage(new BattleProcessEvent(false));
+        _eventService.SendMessage(new ChangeGameState(true));
+    }
+
+    public void HandleSkillApplyed()
+    {
+        _eventService.SendMessage(new BattleProcessEvent(false));
+    }
+
+    public void ChangeTurnOrder(int nextTurnIndex)
+    {
+        _currentTurn.EndTurn();
+        _currentTurn = _turns[nextTurnIndex];
+        _currentTurn.StartTurn();
+        _eventService.SendMessage(new ChangeGameState(nextTurnIndex == 0));
     }
 
     private bool HandleGameReset(GameResetEvent e)
@@ -83,66 +101,69 @@ public class GamePlayController: IStarter
 
     private bool HandleSkillClicked(SkillClickedEvent e)
     {
-        e.Skill.UsesRemains.Value--;
-        BattleResult result;
         _eventService.SendMessage(new BattleProcessEvent(true));
-        if (_currentState == EState.Left)
-        {
-            result = _battleManager.ProcessBattleResult(e.Skill, _leftSideUnit, _rightSideUnit);
-            _mb.StartCoroutine(_damageApply.Apply(result, _leftSideUnit, _rightSideUnit, SkillApplyed));
-            _leftSideUnit.ActionPoints.Value -= e.Skill.GetCost();
-        }
-        else
-        {
-            result = _battleManager.ProcessBattleResult(e.Skill, _rightSideUnit, _leftSideUnit);
-            _mb.StartCoroutine(_damageApply.Apply(result, _rightSideUnit, _leftSideUnit, SkillApplyed));
-            _rightSideUnit.ActionPoints.Value -= e.Skill.GetCost();
-        }
+        _currentTurn.HandleSkillClicked(_mb, _battleManager, _damageApply, e);
         return true;
     }
 
-    private void SkillApplyed()
+    private void SetupTurns()
     {
-        if (_leftSideUnit.CheckDeath() || _rightSideUnit.CheckDeath())
-        {
-            ResetGame();
-            _eventService.SendMessage(new BattleProcessEvent(false));
-            return;
-        }
-
-        if (_currentState == EState.Left)
-        {
-            if (_leftSideUnit.ActionPoints.Value == 0)
-            {
-                ChangeTurnOrder();
-            }
-        }
-        else
-        {
-            if (_rightSideUnit.ActionPoints.Value == 0)
-            {
-                ChangeTurnOrder();
-            }
-        }
-        _eventService.SendMessage(new BattleProcessEvent(false));
+        _turns = new TurnLogic[2];
+        _turns[0] = new TurnLogic(_leftSideUnit, _rightSideUnit, 1, this);
+        _turns[1] = new TurnLogic(_rightSideUnit, _leftSideUnit, 0, this);
     }
 
-    private void ChangeTurnOrder()
+    private class TurnLogic
     {
-        if (_currentState == EState.Left)
+        private readonly UnitModel _mainUnit;
+        private readonly UnitModel _targetUnit;
+        private readonly int _nextTurnIndex;
+        private readonly GamePlayController _gamePlayController;
+
+        public TurnLogic(UnitModel mainUnit, UnitModel targetUnit, int nextTurnIndex, GamePlayController gamePlayController)
         {
-            _leftSideUnit.TurnEnd();
-            _currentState = EState.Right;
-            _rightSideUnit.TurnStart();
-            _eventService.SendMessage(new ChangeGameState(_currentState));
+            _mainUnit = mainUnit;
+            _targetUnit = targetUnit;
+            _nextTurnIndex = nextTurnIndex;
+            _gamePlayController = gamePlayController;
         }
-        else
+
+        public void EndTurn()
         {
-            _rounds.Value++;
-            _rightSideUnit.TurnEnd();
-            _currentState = EState.Left;
-            _leftSideUnit.TurnStart();
-            _eventService.SendMessage(new ChangeGameState(_currentState));
+            _mainUnit.TurnEnd();
+        }
+
+        public void StartTurn()
+        {
+            if (_mainUnit.IsLeft)
+            {
+                _gamePlayController.Rounds.Value++;
+            }
+            _mainUnit.TurnStart();
+        }
+
+        public BattleResult HandleSkillClicked(MonoBehaviour mb, BattleManager battleManager, DamageVisualApply damageApply, SkillClickedEvent e)
+        {
+            e.Skill.UsesRemains.Value--;
+            _mainUnit.ActionPoints.Value -= e.Skill.GetCost();
+
+            var result = battleManager.ProcessBattleResult(e.Skill, _mainUnit, _targetUnit);
+            mb.StartCoroutine(damageApply.Apply(result, _mainUnit, _targetUnit, HandleSkillApplyed));
+            return result;
+        }
+
+        private void HandleSkillApplyed()
+        {
+            if (_mainUnit.CheckDeath() || _targetUnit.CheckDeath())
+            {
+                _gamePlayController.ResetGame();
+                return;
+            }
+            _gamePlayController.HandleSkillApplyed();
+            if (_mainUnit.ActionPoints.Value == 0)
+            {
+                _gamePlayController.ChangeTurnOrder(_nextTurnIndex);
+            }
         }
     }
 }

@@ -35,18 +35,7 @@ public class SkillUI : MonoBehaviour
 
     private bool HandleGameStateChange(ChangeGameState e)
     {
-        if (e.State == EState.Left && _leftSide)
-        {
-            _button.interactable = _skill.UsesRemains.Value > 0;
-        }
-        else if (e.State == EState.Right && !_leftSide)
-        {
-            _button.interactable = _skill.UsesRemains.Value > 0;
-        }
-        else
-        {
-            _button.interactable = false;
-        }
+        _button.interactable = (e.IsLeftTurn == _leftSide) ? _skill.UsesRemains.Value > 0 : false;
         return true;
     }
 }

@@ -6,9 +6,6 @@ public class DamageVisualApply
 {
     public IEnumerator Apply(BattleResult result, UnitModel attacker, UnitModel target, Action callback)
     {
-        attacker.ApplyDamageResult(result.SelfChanges, result.SelfBuffs);
-        target.ApplyDamageResult(result.TargetChanges, result.TargetBuffs);
-
         if (result.TargetChanges.ContainsKey(StaticTranslator.HEALTH) && result.TargetChanges[StaticTranslator.HEALTH] < 0)
         {
             var progress = 1f;

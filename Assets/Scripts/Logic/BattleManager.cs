@@ -50,6 +50,9 @@ public class BattleManager
             UnpackSpecialAction(result, change, attacker, target);
         }
 
+        attacker.ApplyDamageResult(result.SelfChanges, result.SelfBuffs);
+        target.ApplyDamageResult(result.TargetChanges, result.TargetBuffs);
+
         return result;
     }
 

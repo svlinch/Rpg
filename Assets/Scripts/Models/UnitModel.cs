@@ -12,7 +12,7 @@ public class UnitModel
 
     private readonly List<SkillModel> _skills;
     private readonly List<BuffModel> _buffs;
-    private readonly bool _isLeft;
+    public readonly bool IsLeft;
 
     public readonly CustomProperty<int> ActionPoints;
     public readonly UnitVisual UnitVisual;
@@ -23,7 +23,7 @@ public class UnitModel
         _eventService = eventService;
         _balanceService = balanceService;
         UnitVisual = unitVisual;
-        _isLeft = isLeft;
+        IsLeft = isLeft;
 
         _changableTemplate = CloneUtil.Clone(_template);
 
@@ -69,7 +69,7 @@ public class UnitModel
         {
             var newBuff = new BuffModel(_balanceService.GetBuff(buff), _changableTemplate.FParameters);
             _buffs.Add(newBuff);
-            _eventService.SendMessage(new BuffListChanged(_isLeft, false, newBuff));
+            _eventService.SendMessage(new BuffListChanged(IsLeft, false, newBuff));
         }
     }
 
@@ -114,7 +114,7 @@ public class UnitModel
         }
         foreach(var buff in _buffs)
         {
-            _eventService.SendMessage(new BuffListChanged(_isLeft, true, buff));
+            _eventService.SendMessage(new BuffListChanged(IsLeft, true, buff));
         }
         _buffs.Clear();
         ActionPoints.Value = _template.ActionPoints;
@@ -126,7 +126,7 @@ public class UnitModel
         {
             if (!_buffs[i].UpdateBuff(_changableTemplate.FParameters))
             {
-                _eventService.SendMessage(new BuffListChanged(_isLeft, true, _buffs[i]));
+                _eventService.SendMessage(new BuffListChanged(IsLeft, true, _buffs[i]));
                 _buffs.RemoveAt(i);
                 i--;
             }
